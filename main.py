@@ -1,5 +1,4 @@
 from typing import Optional
-
 from fastapi import FastAPI
 import random
 import string
@@ -16,12 +15,12 @@ async def read_root():
 
 
 @app.get("/{account_id}")
-async def read_item(account_id: int):
+async def read_account(account_id: int):
     return {"accountID": account_id, "version": version}
 
 
 @app.get("/{account_id}/data")
-async def read_item(account_id: int, length: Optional[int] = 16):
+async def read_account_data(account_id: int, length: Optional[int] = 16):
     random_string = await get_random_string(length)
     return {"accountID": account_id, "timestamp": datetime.datetime.utcnow(), "data": random_string}
 
