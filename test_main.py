@@ -20,7 +20,7 @@ def test_app_id_int():
 
 def test_app_id_str():
     response = client.get("/test")
-    assert response.status_code == 422
+    assert response.status_code == 200
 
 
 def test_app_data():
