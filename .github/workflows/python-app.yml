@@ -10,10 +10,8 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
@@ -34,8 +32,29 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-    - uses: akhileshns/heroku-deploy@v3.12.12 
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Build image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: false
+          tags: bengotch/simplewhale:latest
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
+  deploy: 
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+    - name: Deploy to Heroku 
+      uses: akhileshns/heroku-deploy@v3.12.12 
       with:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
         heroku_app_name: "api-randon-gen" #Must be unique in Heroku
         heroku_email: "jure.jancigaj@gmail.com"
+        usedocker: true
+        
