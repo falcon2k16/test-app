@@ -3,7 +3,7 @@ from main import app
 
 
 client = TestClient(app)
-version = "1.0.0"
+version = "1.0.1"
 
 
 def test_app_default():
@@ -20,7 +20,7 @@ def test_app_id_int():
 
 def test_app_id_str():
     response = client.get("/test")
-    assert response.status_code == 200
+    assert response.status_code == 422
 
 
 def test_app_data():

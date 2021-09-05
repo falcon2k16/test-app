@@ -6,7 +6,7 @@ import datetime
 
 
 app = FastAPI()
-version = "1.0.0"
+version = "1.0.1"
 
 
 @app.get("/")
